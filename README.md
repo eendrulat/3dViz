@@ -2,6 +2,8 @@
 
 Browser app for 3D terrain and lidar visualizations. Runs fully client-side.
 
+Live: https://eendrulat.github.io/3dViz/ (deployed by `.github/workflows/pages.yml` on every push).
+
 ## Run
 
 ```bash
