@@ -1,0 +1,32 @@
+{
+  "name": "3dviz",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eendrulat/3dViz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eendrulat/3dViz/issues"
+  },
+  "homepage": "https://github.com/eendrulat/3dViz#readme",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@loaders.gl/core": "^4.5.4",
+    "@loaders.gl/las": "^4.5.4",
+    "geotiff": "^3.0.5",
+    "lil-gui": "^0.21.0",
+    "maplibre-gl": "^6.18.0",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.187.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  }
+}

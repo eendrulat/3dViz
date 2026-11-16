@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3dViz · terrain & lidar</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <aside id="panel">
+        <header>
+          <h1>3dViz</h1>
+          <span class="sub">terrain &amp; lidar visualizer</span>
+        </header>
+
+        <section class="card">
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-src="map">Map area</button>
+            <button class="tab" data-src="file">File</button>
+          </div>
+
+          <div class="src-pane" data-pane="map">
+            <form id="search-form" class="row">
+              <input id="search" type="search" placeholder="Search a place…" />
+              <button type="submit">Go</button>
+            </form>
+            <div class="row">
+              <button id="draw-btn">Draw area</button>
+              <button id="clear-btn" class="ghost">Use visible map</button>
+            </div>
+            <p id="sel-info" class="hint">No box drawn: the visible map area is used.</p>
+            <label>Elevation source
+              <select id="provider">
+                <option value="aws">AWS Terrain Tiles (global, ~10–30 m)</option>
+                <option value="3dep">USGS 3DEP (US only, lidar, to 1 m)</option>
+              </select>
+            </label>
+            <label id="aws-detail-label">Max grid size
+              <select id="aws-detail">
+                <option value="512">512 px</option>
+                <option value="1024" selected>1024 px</option>
+                <option value="2048">2048 px</option>
+              </select>
+            </label>
+            <label id="dep-detail-label" hidden>Target resolution
+              <select id="dep-detail">
+                <option value="1">1 m</option>
+                <option value="2">2 m</option>
+                <option value="5" selected>5 m</option>
+                <option value="10">10 m</option>
+                <option value="30">30 m</option>
+              </select>
+            </label>
+            <p id="plan-info" class="hint"></p>
+            <button id="load-map" class="primary">Load elevation</button>
+          </div>
+
+          <div class="src-pane" data-pane="file" hidden>
+            <label id="drop" class="drop">
+              <input id="file" type="file" accept=".tif,.tiff,.las,.laz" hidden />
+              <strong>Drop a file</strong> or click to choose
+              <span class="hint">GeoTIFF DEM (.tif) or point cloud (.las / .laz)</span>
+            </label>
+            <fieldset id="las-opts">
+              <legend>Point cloud → surface</legend>
+              <label>Surface
+                <select id="las-mode">
+                  <option value="ground">Bare earth (ground class, DTM)</option>
+                  <option value="surface">All features (DSM)</option>
+                </select>
+              </label>
+              <label>Cell size (file units, 0 = auto)
+                <input id="las-cell" type="number" min="0" step="0.25" value="0" />
+              </label>
+            </fieldset>
+          </div>
+        </section>
+
+        <div id="status" class="status">Loading demo area…</div>
+
+        <div id="gui"></div>
+
+        <section class="card">
+          <h2>Export</h2>
+          <div class="row">
+            <label class="inline">Scale
+              <select id="png-scale">
+                <option value="1">1×</option>
+                <option value="2" selected>2×</option>
+                <option value="4">4×</option>
+              </select>
+            </label>
+            <label class="inline check"><input id="png-transparent" type="checkbox" /> Transparent</label>
+          </div>
+          <button id="export-png">Save PNG</button>
+          <h3>ArcGIS Pro</h3>
+          <button id="export-tif">Elevation GeoTIFF</button>
+          <button id="export-contours">Contours GeoJSON</button>
+          <p id="crs-info" class="hint"></p>
+        </section>
+      </aside>
+
+      <main>
+        <nav class="view-tabs">
+          <button class="vtab" data-view="map">Map</button>
+          <button class="vtab active" data-view="3d">3D view</button>
+          <span class="spacer"></span>
+          <span class="cam" data-for="3d">
+            <button data-cam="oblique">Oblique</button>
+            <button data-cam="front">Front</button>
+            <button data-cam="low">Low</button>
+            <button data-cam="top">Top</button>
+          </span>
+        </nav>
+        <div id="map" class="view" hidden></div>
+        <div id="view3d" class="view"></div>
+        <div id="busy" hidden><div class="spinner"></div><span id="busy-text"></span></div>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
